@@ -40,8 +40,8 @@ public class AppointmentService {
                 "\nProperty: " + current.getPropertyAddress() +
                 "\nDate: " + current.getAppointmentDate() +
                 "\nTime: " + current.getAppointmentTime() +
-                "\nTenant: " + current.getTenant().getName() +
-                "\nLandlord: " + current.getLandlord().getName() +
+                "\nTenant: " + current.getTenant().getTenantName() +
+                "\nLandlord: " + current.getLandlord().getLandlordName() +
                 "\nThank you!";
     }
 
@@ -49,26 +49,35 @@ public class AppointmentService {
         if (isEmpty(base.getPropertyAddress()) && !isEmpty(update.getPropertyAddress()))
             base.setPropertyAddress(update.getPropertyAddress());
 
-        if (isEmpty(base.getAppointmentDate()) && !isEmpty(update.getAppointmentDate()))
+        if (base.getAppointmentDate() == null && update.getAppointmentDate() != null)
             base.setAppointmentDate(update.getAppointmentDate());
 
-        if (isEmpty(base.getAppointmentTime()) && !isEmpty(update.getAppointmentTime()))
+        if (base.getAppointmentTime() == null && update.getAppointmentTime() != null)
             base.setAppointmentTime(update.getAppointmentTime());
 
         if (base.getTenant() == null) base.setTenant(update.getTenant());
-        else mergeContact(base.getTenant(), update.getTenant());
+        else mergeTenantContact(base.getTenant(), update.getTenant());
 
         if (base.getLandlord() == null) base.setLandlord(update.getLandlord());
-        else mergeContact(base.getLandlord(), update.getLandlord());
+        else mergeLandlordContact(base.getLandlord(), update.getLandlord());
     }
 
-    private void mergeContact(Appointment.ContactDetails base, Appointment.ContactDetails update) {
+    private void mergeTenantContact(Appointment.TenantContactDetails base, Appointment.TenantContactDetails update) {
         if (base == null || update == null) return;
 
-        if (isEmpty(base.getName()) && !isEmpty(update.getName())) base.setName(update.getName());
-        if (isEmpty(base.getEmail()) && !isEmpty(update.getEmail())) base.setEmail(update.getEmail());
-        if (isEmpty(base.getPhone()) && !isEmpty(update.getPhone())) base.setPhone(update.getPhone());
+        if (isEmpty(base.getTenantName()) && !isEmpty(update.getTenantName())) base.setTenantName(update.getTenantName());
+        if (isEmpty(base.getTenantEmail()) && !isEmpty(update.getTenantEmail())) base.setTenantEmail(update.getTenantEmail());
+        if (isEmpty(base.getTenantPhone()) && !isEmpty(update.getTenantPhone())) base.setTenantPhone(update.getTenantPhone());
     }
+
+    private void mergeLandlordContact(Appointment.LandlordContactDetails base, Appointment.LandlordContactDetails update) {
+        if (base == null || update == null) return;
+
+        if (isEmpty(base.getLandlordName()) && !isEmpty(update.getLandlordName())) base.setLandlordName(update.getLandlordName());
+        if (isEmpty(base.getLandlordEmail()) && !isEmpty(update.getLandlordEmail())) base.setLandlordEmail(update.getLandlordEmail());
+        if (isEmpty(base.getLandlordPhone()) && !isEmpty(update.getLandlordPhone())) base.setLandlordPhone(update.getLandlordPhone());
+    }
+
 
     private boolean isEmpty(String value) {
         return value == null || value.trim().isEmpty() || value.equalsIgnoreCase("unknown");

@@ -90,28 +90,28 @@ public class ChatAIService {
         if (isEmpty(appointment.getPropertyAddress())) {
             missingDetails.append("Property address, ");
         }
-        if (isEmpty(appointment.getAppointmentDate())) {
+        if (appointment.getAppointmentDate() == null) {
             missingDetails.append("Appointment date, ");
         }
-        if (isEmpty(appointment.getAppointmentTime())) {
+        if (appointment.getAppointmentTime() == null) {
             missingDetails.append("Appointment time, ");
         }
-        if (appointment.getTenant() == null || isEmpty(appointment.getTenant().getName())) {
+        if (appointment.getTenant() == null || isEmpty(appointment.getTenant().getTenantName())) {
             missingDetails.append("Tenant name, ");
         }
-        if (appointment.getTenant() == null || isEmpty(appointment.getTenant().getEmail())) {
+        if (appointment.getTenant() == null || isEmpty(appointment.getTenant().getTenantEmail())) {
             missingDetails.append("Tenant email, ");
         }
-        if (appointment.getTenant() == null || isEmpty(appointment.getTenant().getPhone())) {
+        if (appointment.getTenant() == null || isEmpty(appointment.getTenant().getTenantPhone())) {
             missingDetails.append("Tenant phone, ");
         }
-        if (appointment.getLandlord() == null || isEmpty(appointment.getLandlord().getName())) {
+        if (appointment.getLandlord() == null || isEmpty(appointment.getLandlord().getLandlordName())) {
             missingDetails.append("Landlord name, ");
         }
-        if (appointment.getLandlord() == null || isEmpty(appointment.getLandlord().getEmail())) {
+        if (appointment.getLandlord() == null || isEmpty(appointment.getLandlord().getLandlordEmail())) {
             missingDetails.append("Landlord email, ");
         }
-        if (appointment.getLandlord() == null || isEmpty(appointment.getLandlord().getPhone())) {
+        if (appointment.getLandlord() == null || isEmpty(appointment.getLandlord().getLandlordPhone())) {
             missingDetails.append("Landlord phone, ");
         }
 
@@ -125,16 +125,16 @@ public class ChatAIService {
 
     private boolean hasMissingRequiredFields(Appointment appointment) {
         return isEmpty(appointment.getPropertyAddress()) ||
-                isEmpty(appointment.getAppointmentDate()) ||
-                isEmpty(appointment.getAppointmentTime()) ||
+                appointment.getAppointmentDate() == null ||
+                appointment.getAppointmentTime() == null ||
                 appointment.getTenant() == null ||
-                isEmpty(appointment.getTenant().getName()) ||
-                isEmpty(appointment.getTenant().getEmail()) ||
-                isEmpty(appointment.getTenant().getPhone()) ||
+                isEmpty(appointment.getTenant().getTenantName()) ||
+                isEmpty(appointment.getTenant().getTenantEmail()) ||
+                isEmpty(appointment.getTenant().getTenantPhone()) ||
                 appointment.getLandlord() == null ||
-                isEmpty(appointment.getLandlord().getName()) ||
-                isEmpty(appointment.getLandlord().getEmail()) ||
-                isEmpty(appointment.getLandlord().getPhone());
+                isEmpty(appointment.getLandlord().getLandlordName()) ||
+                isEmpty(appointment.getLandlord().getLandlordEmail()) ||
+                isEmpty(appointment.getLandlord().getLandlordPhone());
     }
 
     private boolean isEmpty(String value) {
@@ -143,16 +143,16 @@ public class ChatAIService {
 
     public boolean isAppointmentComplete(Appointment appointment) {
         return !isEmpty(appointment.getPropertyAddress()) &&
-                !isEmpty(appointment.getAppointmentDate()) &&
-                !isEmpty(appointment.getAppointmentTime()) &&
+                appointment.getAppointmentDate() != null &&
+                appointment.getAppointmentTime() != null &&
                 appointment.getTenant() != null &&
-                !isEmpty(appointment.getTenant().getName()) &&
-                !isEmpty(appointment.getTenant().getEmail()) &&
-                !isEmpty(appointment.getTenant().getPhone()) &&
+                !isEmpty(appointment.getTenant().getTenantName()) &&
+                !isEmpty(appointment.getTenant().getTenantEmail()) &&
+                !isEmpty(appointment.getTenant().getTenantPhone()) &&
                 appointment.getLandlord() != null &&
-                !isEmpty(appointment.getLandlord().getName()) &&
-                !isEmpty(appointment.getLandlord().getEmail()) &&
-                !isEmpty(appointment.getLandlord().getPhone());
+                !isEmpty(appointment.getLandlord().getLandlordName()) &&
+                !isEmpty(appointment.getLandlord().getLandlordEmail()) &&
+                !isEmpty(appointment.getLandlord().getLandlordPhone());
     }
 
     private void sendGreetingMessage(String sessionId) {

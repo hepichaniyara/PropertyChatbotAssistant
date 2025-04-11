@@ -3,7 +3,6 @@ package com.ai.PropertyChatbotAssistant.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 @Data
 @Entity
@@ -28,28 +27,44 @@ public class Appointment {
 
     @JsonProperty("tenant")
     @Embedded
-    private ContactDetails tenant;
+    private TenantContactDetails tenant;
 
     @JsonProperty("landlord")
     @Embedded
-    private ContactDetails landlord;
+    private LandlordContactDetails landlord;
 
     @Column(name = "is_confirmed", nullable = false)
     private boolean isConfirmed = false;
 
     @Data
     @Embeddable
-    public static class ContactDetails {
+    public static class TenantContactDetails {
         @JsonProperty("name")
-        @Column(name = "name", nullable = false)
-        private String name;
+        @Column(name = "tenant_name", nullable = false)
+        private String tenantName;
 
         @JsonProperty("email")
-        @Column(name = "email", nullable = false)
-        private String email;
+        @Column(name = "tenant_email", nullable = false)
+        private String tenantEmail;
 
         @JsonProperty("phone")
-        @Column(name = "phone", nullable = false)
-        private String phone;
+        @Column(name = "tenant_phone", nullable = false)
+        private String tenantPhone;
+    }
+
+    @Data
+    @Embeddable
+    public static class LandlordContactDetails {
+        @JsonProperty("name")
+        @Column(name = "landlord_name", nullable = false)
+        private String landlordName;
+
+        @JsonProperty("email")
+        @Column(name = "landlord_email", nullable = false)
+        private String landlordEmail;
+
+        @JsonProperty("phone")
+        @Column(name = "landlord_phone", nullable = false)
+        private String landlordPhone;
     }
 }
